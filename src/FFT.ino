@@ -6,8 +6,8 @@
 
 #define Left  true
 #define Right false
-#define LeftPin  39
-#define RightPin 36
+#define LeftPin  34
+#define RightPin 35
 
 float MAX = 725;    // cap computed FFT values
 int AMPLITUDE = 25; // scale computed FFT values
@@ -37,19 +37,19 @@ void FFTstuff(){
 
     for (int i = 0; i < SAMPLES; i++) {                              // read one channel followed by the other
         newTime = micros()-oldTime;                                  // and store in FFT object
-        oldTime = newTime;                                           // 
-        LvReal[i] = analogRead(LeftPin);                             // 
-        LvImag[i] = 0;                                               // 
-        while (micros() < (newTime + sampling_period_us)) {  }       // 
-    }                                                                // 
-    for (int i = 0; i < SAMPLES; i++) {                              // 
-        newTime = micros()-oldTime;                                  // 
-        oldTime = newTime;                                           // 
-        RvReal[i] = analogRead(RightPin);                            // 
-        RvImag[i] = 0;                                               // 
-        while (micros() < (newTime + sampling_period_us)) {  }       // 
-    }                                                                 
-    
+        oldTime = newTime;                                           //
+        LvReal[i] = analogRead(LeftPin);                             //
+        LvImag[i] = 0;                                               //
+        while (micros() < (newTime + sampling_period_us)) {  }       //
+    }                                                                //
+    for (int i = 0; i < SAMPLES; i++) {                              //
+        newTime = micros()-oldTime;                                  //
+        oldTime = newTime;                                           //
+        RvReal[i] = analogRead(RightPin);                            //
+        RvImag[i] = 0;                                               //
+        while (micros() < (newTime + sampling_period_us)) {  }       //
+    }
+
     // LFFT.Windowing(FFT_WIN_TYP_HAMMING, FFT_FORWARD);
     LFFT.Windowing(FFT_WIN_TYP_HANN, FFT_FORWARD);        // apply window function to FFT object
     LFFT.Compute(FFT_FORWARD);                            // compute FFT
@@ -59,7 +59,7 @@ void FFTstuff(){
     RFFT.Windowing(FFT_WIN_TYP_HANN, FFT_FORWARD);
     RFFT.Compute(FFT_FORWARD);
     RFFT.ComplexToMagnitude();
-    
+
     processBands();
 
 }
@@ -100,11 +100,11 @@ void processBands(){
     // }
     // Serial1.print("\r");
 }
-    
+
 void displayBand(bool channel, int band, int dsize){
     dsize /= AMPLITUDE; // scale FFT values
     if (dsize > MAX) dsize = MAX; // cap FFT values
     if (channel == Left ) { Lpeak[band] = (dsize > Lpeak[band]) ? dsize : Lpeak[band]; }
     if (channel == Right) { Rpeak[band] = (dsize > Rpeak[band]) ? dsize : Rpeak[band]; }
-    
+
 }

@@ -2,8 +2,8 @@
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-const char* ssid = "your_ssid_here";
-const char* password = "your_password_here";
+const char* ssid = "shed-bernie-ch_6"; // Wifi hotspot name
+const char* password = "deadletter"; // wifi password
 
 // #define BLYNK_PRINT Serial
 // #define BLYNK_USE_DIRECT_CONNECT
@@ -12,7 +12,7 @@ const char* password = "your_password_here";
 #else
     #include <BlynkSimpleEsp32.h>
 #endif
-char auth[] = "your_blynk_auth_token_here";
+char auth[] = "92f33881d13848d1af61d19a9ec04de7"; // Blynk Auth Token
 
 void setupWiFi(){
     wifiScan();
@@ -30,7 +30,7 @@ void setupOTA(){
     ArduinoOTA.setPort(3232);
 
     // Hostname defaults to esp3232-[MAC]
-    ArduinoOTA.setHostname("speaker");
+    ArduinoOTA.setHostname("Pixel Node");
 
     // No authentication by default
     // ArduinoOTA.setPassword("admin");
@@ -195,4 +195,3 @@ BLYNK_WRITE(6){ // sat
 // BLYNK_WRITE(127){
     // noise = param.asFloat() * 100;
 // }
-

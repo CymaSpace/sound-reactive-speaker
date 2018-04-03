@@ -1,6 +1,6 @@
 // for ESP32, the official FastLED library can crash
 // when calling FastLED.show() while connected to Wifi.
-// Something to do with interrupts. this project uses the library at 
+// Something to do with interrupts. this project uses the library at
 // https://github.com/samguyer/FastLED
 // which has better timing, preventing crashing
 
@@ -15,9 +15,9 @@ FASTLED_USING_NAMESPACE
 
 #define LED_TYPE    WS2812
 #define COLOR_ORDER GRB
-#define LED_PINS    13
-#define NUM_LEDS    66
-#define BRIGHTNESS  255
+#define LED_PINS    27
+#define NUM_LEDS    20
+#define BRIGHTNESS  63
 #define FRAMES_PER_SECOND  120
 
 CRGBArray<NUM_LEDS> leds;                              // LED array containing all LEDs
@@ -107,8 +107,8 @@ void simplePattern0(){ // frequencies in sequence one LED at a time
 
 void simplePattern1(){
     for(int i = 0; i < NUM_LEDS/4; i++){
-        // int pos = i/2.35; 
-        int pos = i/1.4; 
+        // int pos = i/2.35;
+        int pos = i/1.4;
         float left  = Lpeak[pos] / MAX;left =  left *2 - left *left /255;
         float right = Rpeak[pos] / MAX; right = right*2 - right*right/255;
         L1[i]              = CHSV( 224*i/(NUM_LEDS/4.0), 255, left  * 255.0);
@@ -159,7 +159,7 @@ void addGlitter() {
     }
 }
 
-void confetti() 
+void confetti()
 {
   // random colored speckles that blink in and fade smoothly
     fadeToBlackBy( leds, NUM_LEDS, 10);
@@ -232,7 +232,7 @@ void blendwave() {
     // uint8_t speed, loc1; // loc2, ran1, ran2;
 
     // speed = beatsin8(6,0,255);
-    
+
     // if(manual && _cycle){
         // clr1 = blend(gradient1, gradient2, speed);
         // clr2 = blend(gradient2, gradient1, speed);
@@ -249,15 +249,15 @@ void blendwave() {
 
 
 void beatwave() {
-  
+
     uint8_t wave1 = beatsin8(9, 0, 255), wave5 = beatsin8(8, 0, 255);                        // That's the same as beatsin8(9);
     uint8_t wave2 = beatsin8(8, 0, 255), wave6 = beatsin8(7, 0, 255);
     uint8_t wave3 = beatsin8(7, 0, 255), wave7 = beatsin8(6, 0, 255);
     uint8_t wave4 = beatsin8(6, 0, 255), wave8 = beatsin8(5, 0, 255);
 
     for (int i=0; i<NUM_LEDS/2; i++) {
-        LEFT [i] = ColorFromPalette( randomPalette1, i+wave5+wave6+wave7+wave8, 255, currentBlending); 
-        RIGHT[i] = ColorFromPalette( targetPalette , i+wave1+wave2+wave3+wave4, 255, currentBlending); 
+        LEFT [i] = ColorFromPalette( randomPalette1, i+wave5+wave6+wave7+wave8, 255, currentBlending);
+        RIGHT[i] = ColorFromPalette( targetPalette , i+wave1+wave2+wave3+wave4, 255, currentBlending);
         yield();
     }
     FastLED.show();
@@ -273,8 +273,8 @@ void inoise8_mover() {
     pixlen = map(locn,0,255,0,NUM_LEDS/2);                // Map that to the length of the strand.
     RIGHT[pixlen] = ColorFromPalette(randomPalette2, pixlen, 255, LINEARBLEND);   // Use that value for both the location as well as the palette index colour for the pixel.
 
-    dist1 += beatsin8(10,1,4);                                                // Moving along the distance (that random number we started out with). Vary it a bit with a sine wave.                                             
-    dist2 += beatsin8(13,1,4);                                                // Moving along the distance (that random number we started out with). Vary it a bit with a sine wave.                                             
+    dist1 += beatsin8(10,1,4);                                                // Moving along the distance (that random number we started out with). Vary it a bit with a sine wave.
+    dist2 += beatsin8(13,1,4);                                                // Moving along the distance (that random number we started out with). Vary it a bit with a sine wave.
     FastLED.show();
-    fadeToBlackBy(leds, NUM_LEDS, 10);     
+    fadeToBlackBy(leds, NUM_LEDS, 10);
 } // inoise8_mover()
